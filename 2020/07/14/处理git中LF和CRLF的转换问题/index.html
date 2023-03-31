@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+      
+    
+    
+      
+    
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/red/pace-theme-minimal.css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1、换行符在不同的操作系统中的表示首先，要理解的一点是，对于不同的操作系统，对于换行符的表示是不一样的，也就是说在编辑一个文件时，当我们敲下一个回车键的时候，对于不同的操作系统保存到文件中的换行符是不一样的。如下表所示：12345678CR: 表示回车 \rLF: 表示换行 \nCRLF: 表示回车换行 \r\n敲入回车键，在不同操作系统保存到文件中的值：windows: 使用的是 CRLF ==">
+<meta name="keywords" content="随笔">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理git中LF和CRLF的转换问题">
+<meta property="og:url" content="https://zjyegt.cn/2020/07/14/处理git中LF和CRLF的转换问题/index.html">
+<meta property="og:site_name" content="展现学习成果">
+<meta property="og:description" content="1、换行符在不同的操作系统中的表示首先，要理解的一点是，对于不同的操作系统，对于换行符的表示是不一样的，也就是说在编辑一个文件时，当我们敲下一个回车键的时候，对于不同的操作系统保存到文件中的换行符是不一样的。如下表所示：12345678CR: 表示回车 \rLF: 表示换行 \nCRLF: 表示回车换行 \r\n敲入回车键，在不同操作系统保存到文件中的值：windows: 使用的是 CRLF ==">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-07-13T17:15:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="处理git中LF和CRLF的转换问题">
+<meta name="twitter:description" content="1、换行符在不同的操作系统中的表示首先，要理解的一点是，对于不同的操作系统，对于换行符的表示是不一样的，也就是说在编辑一个文件时，当我们敲下一个回车键的时候，对于不同的操作系统保存到文件中的换行符是不一样的。如下表所示：12345678CR: 表示回车 \rLF: 表示换行 \nCRLF: 表示回车换行 \r\n敲入回车键，在不同操作系统保存到文件中的值：windows: 使用的是 CRLF ==">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zjyegt.cn/2020/07/14/处理git中LF和CRLF的转换问题/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>处理git中LF和CRLF的转换问题 | 展现学习成果</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband" style="display: block;">
+      <a href="https://github.com/YGT-cxy" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    </div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">展现学习成果</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>作品</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zjyegt.cn/2020/07/14/处理git中LF和CRLF的转换问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="叶光调">
+      <meta itemprop="description" content="叶光调的个人博客，记录平时在学习前端方面的笔记以及一些体会">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="展现学习成果">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">处理git中LF和CRLF的转换问题
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-14 01:15:14" itemprop="dateCreated datePublished" datetime="2020-07-14T01:15:14+08:00">2020-07-14</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+          <!-- 统计功能 -->
+          
+            <div>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span class="post-count">字数统计：1.6k 字</span>
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span class="post-count">阅读时间 ≈ 6 分钟</span>
+            </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="1、换行符在不同的操作系统中的表示"><a href="#1、换行符在不同的操作系统中的表示" class="headerlink" title="1、换行符在不同的操作系统中的表示"></a>1、换行符在不同的操作系统中的表示</h5><p>首先，要理解的一点是，对于不同的操作系统，对于换行符的表示是不一样的，也就是说在编辑一个文件时，当我们敲下一个回车键的时候，对于不同的操作系统保存到文件中的换行符是不一样的。<br>如下表所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CR: 表示回车 \r</span><br><span class="line">LF: 表示换行 \n</span><br><span class="line">CRLF: 表示回车换行 \r\n</span><br><span class="line">敲入回车键，在不同操作系统保存到文件中的值：</span><br><span class="line">windows: 使用的是 CRLF ===&gt; 即 \r\n , 文件中保存的是 \r\n</span><br><span class="line">Linux\Unix: 使用的是 LF ===&gt; 即 \n , 文件中保存的是 \n</span><br><span class="line">Mac OS: 使用的是 CR ===&gt; 即 \r ，文件中保存的是 \r</span><br><span class="line">Mac OS X系统: 使用的是 LF ===&gt; 即 \n ,文件中保存的是 \n (Mac OS X 已经改成和Linux\Unix一样，使用 LF)</span><br></pre></td></tr></table></figure></p>
+<p>问题：既然在不同的操作系统中，对于换行符会使用不同的表示形式，如果一个团队在开发一个共同的项目时，有人使用的是windows系统，有人使用的是Mac，当使用git协同开发软件时，就会出现换行符不统一的问题。<br><br>虽然在不同的操作平台中，默认的换行符表示形式不一样，但是可以在编辑器中设置在敲下回车键的时候保存的换行符是怎样的形式。比如在vs code中就可以直接点击编辑器右下角的 LF 或者是 CRLF 进行切换，设置成功后，再次敲入回车键，保存在文件中的换行符就是设置的那个形式。</p>
+<h5 id="2、git会自动对换行符进行转换"><a href="#2、git会自动对换行符进行转换" class="headerlink" title="2、git会自动对换行符进行转换"></a>2、git会自动对换行符进行转换</h5><p>git 为了解决上面提出的问题，会自动对换行符进行转换，转换的方案有三种：</p>
+<ol>
+<li>在提交的时候将 CRLF 转换为 LF ，在拉取（检出checkout）代码时将 LF 转换为 CRLF 。（这种方案在windows系统中常用，在windows安装git的时候，如果一路选择 next ，默认是使用这种方案解决）</li>
+<li>在提交的时候将 CRLF 转换为 LF ，在拉取（检出checkout）代码时不进行转换。（在Unix或者类Unix操作系统中安装git时，默认是使用这种方案解决）</li>
+<li>不进行任何的转换（这种方案在跨平台的团队协作中，不推荐使用）<br><code>总结：可以发现，如果不使用第三种方案，在git仓库（包括本地仓库和gitHub远程仓库）中保存的换行符都是使用 LF 表示的。</code><br></li>
+</ol>
+<h5 id="3、自定义指定换行符的转换方案"><a href="#3、自定义指定换行符的转换方案" class="headerlink" title="3、自定义指定换行符的转换方案"></a>3、自定义指定换行符的转换方案</h5><h6 id="3-1-通过git的全局配置进行修改"><a href="#3-1-通过git的全局配置进行修改" class="headerlink" title="3.1 通过git的全局配置进行修改"></a>3.1 通过git的全局配置进行修改</h6><p>设置 autocrlf 属性，在控制台中直接运行如下的一条命令就可以设置了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 提交时 CRLF 转换为 LF ，检出时转换为 CRLF</span><br><span class="line">git config --global core.autocrlf true</span><br><span class="line">// 提交时 CRLF 转换为 LF ，检出时不做任何的转换</span><br><span class="line">git config --global core.autocrlf input</span><br><span class="line">// 提交和检出均不做任何的转换</span><br><span class="line">git config --global core.autocrlf false</span><br></pre></td></tr></table></figure></p>
+<p>上述的命名运行之后，会修改 .gitconfig 文件。<br><br>一般在项目中，为了避免项目同时出现 CRLF  和 LF ，还可以开启git 的 safecrlf 检查。当然，如果项目中定义了语法检测规则，例如使用 eslint 去约束换行符必须是 LF ，那么当你的文件中出现 CRLF 的时候， eslint 会给你错误语法提示信息，告诉你不能包含 CRLF ，这时候，不开启 saferlf 也是没有问题的（一般建议开启）。<br>开启方法如下第一条命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 拒绝提交包含混合换行符的文件 (一般设置为true)</span><br><span class="line">git config --global core.safecrlf true</span><br><span class="line">// 允许提交包含混合换行符的文件</span><br><span class="line">git config --global core.safecrlf false</span><br><span class="line">// 提交包含混合换行符的文件时给出警告</span><br><span class="line">git config --global core.safecrlf warn</span><br></pre></td></tr></table></figure></p>
+<p>上述命令运行之后，也会修改 .gitconfig 文件。<br></p>
+<h6 id="3-2-通过-gitattributes-进行修改"><a href="#3-2-通过-gitattributes-进行修改" class="headerlink" title="3.2 通过 .gitattributes 进行修改"></a>3.2 通过 .gitattributes 进行修改</h6><p>注意点： .gitattributes 是针对一个单一的仓库的，也就是说每一个代码仓库都可以包含一个 .gitattributes 文件。这种方式设置之后，不需要一个项目组里面的同事分别再去修改自己电脑的git的全局配置。<br><br>对于通过 .gitattributes 设置换行符的转换方案，可以使用的命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1. text=auto ： 采用git认为最好的方式来处理文件的换行符，</span><br><span class="line"> 在 .gitattributes 中的默认配置项是按照这种方式处理的。</span><br><span class="line"> (如果是文本文件，则在文件入Git库时，行尾自动转换为LF。</span><br><span class="line"> 如果已经在入Git库中的文件的行尾是CRLF，则文件在入Git库时，不再转换为LF。)</span><br><span class="line">2. -text 表示让git在checkin以及checkout的时候，对end-of-line不做任何转换。</span><br><span class="line"> </span><br><span class="line">3. text 表示在checkin的时候会被转换为LF（在repository中的文件结束符是LF），</span><br><span class="line"> 如果需要控制在checkout的时候的换行符，需要结合eol进行设置</span><br><span class="line">（也就是控制working tree中的文件的结尾符，需要通过eol设置）。</span><br><span class="line"> text=auto 和 text的区别在于，text=auto由git来确定是不是文本文件，</span><br><span class="line"> 从而进行转换；而text表示，你确定这个path就是文本文件，会直接对这个</span><br><span class="line"> path进行转换，而不是有git来decides是否转换。</span><br><span class="line"> </span><br><span class="line">4. 如果没有指定text，git会使用全局配置中的core.autocrlf来进行eol</span><br><span class="line"> 的转换。core.autocrlf需要自己在自己的电脑上进行配置。</span><br><span class="line">5. eol=crlf ：对左边匹配的文件统一使用CRLF换行符格式，</span><br><span class="line"> 如果有文件中出现LF将会转换成CRLF;也就是说，</span><br><span class="line"> 在checkin和checkout的时候，文件中都是CRLF，LF会被转换为CRLF。</span><br><span class="line">6. eol=lf ：对左边匹配的文件统一使用LF换行符格式，</span><br><span class="line"> 如果有文件中出现CRLF将会转换成LF;也就是说，</span><br><span class="line"> 在checkin和checkout的时候，文件中都是LF，CRLF会被转换为LF。</span><br><span class="line">7. binary : 告诉git该文件为二进制，防止git修改该文件。git不会对其中的换行符进行改变。</span><br></pre></td></tr></table></figure></p>
+<p><code>注意：.gitattributes文件必须要提交之后才能生效。</code><br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Set the default behavior, in case people don&apos;t have core.autocrlf set.</span><br><span class="line">* text=auto</span><br><span class="line"># Explicitly declare text files you want to always be normalized and converted</span><br><span class="line"># to native line endings on checkout.</span><br><span class="line">*.c text</span><br><span class="line">*.h text</span><br><span class="line"># Declare files that will always have CRLF line endings on checkout.</span><br><span class="line">*.sln text eol=crlf</span><br><span class="line"># Denote all files that are truly binary and should not be modified.</span><br><span class="line">*.png binary</span><br><span class="line">*.jpg binary</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+      <div>
+        <div>
+ 
+ <div style="text-align:center;color: #999;font-size: 18px;">本文结束 <i class="fa fa-paw"></i> 感谢您的阅读</div>
+ <script>
+  function blogVisit(res) {
+    console.log(res);
+  }
+ </script>
+ <script src="https://zjyegt.cn:10011?visit=blogVisit&title=处理git中LF和CRLF的转换问题"></script>
+ 
+</div>
+      </div>
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+  <img id="wechat_subscriber_qcode" src="/uploads/yezixiansheng.jpg" alt="叶光调 wechat" style="width: 200px; max-width: 100%;">
+  <div>扫描上面的QR Code，加我WeChat。</div>
+</div>
+
+      </div>
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/随笔/" rel="tag"><i class="fa fa-tag"></i> 随笔</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/08/Nginx的HTTP499状态码/" rel="next" title="Nginx的HTTP499状态码">
+                <i class="fa fa-chevron-left"></i> Nginx的HTTP499状态码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/05/git刷新忽略文件-gitignore/" rel="prev" title="git刷新忽略文件.gitignore">
+                git刷新忽略文件.gitignore <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="叶光调">
+            
+              <p class="site-author-name" itemprop="name">叶光调</p>
+              <p class="site-description motion-element" itemprop="description">叶光调的个人博客，记录平时在学习前端方面的笔记以及一些体会</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/YGT-cxy" title="GitHub &rarr; https://github.com/YGT-cxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:1159514579@qq.com" title="E-Mail &rarr; mailto:1159514579@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/15768862294" title="电话 &rarr; 15768862294"><i class="fa fa-fw fa-phone-square"></i>电话</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="/q1159514579" title="wechat &rarr; q1159514579"><i class="fa fa-fw fa-phone-square"></i>wechat</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、换行符在不同的操作系统中的表示"><span class="nav-number">1.</span> <span class="nav-text">1、换行符在不同的操作系统中的表示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、git会自动对换行符进行转换"><span class="nav-number">2.</span> <span class="nav-text">2、git会自动对换行符进行转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、自定义指定换行符的转换方案"><span class="nav-number">3.</span> <span class="nav-text">3、自定义指定换行符的转换方案</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-通过git的全局配置进行修改"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 通过git的全局配置进行修改</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-通过-gitattributes-进行修改"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 通过 .gitattributes 进行修改</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">  <a href="https://beian.miit.gov.cn" rel="noopener" target="_blank">粤ICP备18014379号-1 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶光调</span>
+
+  
+
+  
+</div>
+
+<!-- 
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+ -->
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="300" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest-nomobile.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<!-- 页面点击小红心 -->
+
+  <script src="/js/src/clicklove.js"></script>
+
+</html>
