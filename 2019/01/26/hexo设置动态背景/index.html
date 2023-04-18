@@ -233,7 +233,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
 
   </li>
         
@@ -250,7 +250,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章</a>
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;文章</a>
 
   </li>
         
@@ -267,7 +267,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
 
   </li>
         
@@ -284,7 +284,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
 
   </li>
         
@@ -301,7 +301,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>作品</a>
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;作品</a>
 
   </li>
 
@@ -464,7 +464,7 @@
       
 
       
-        <h1 id="开启动态背景"><a href="#开启动态背景" class="headerlink" title="开启动态背景"></a>开启动态背景</h1><p>修改<code>_config.yml</code>文件里的<code>canvas_nest</code>配置改为<code>true</code><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">canvas_nest:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  onmobile:</span> <span class="literal">true</span> <span class="comment"># display on mobile or not</span></span><br><span class="line"><span class="attr">  color:</span> <span class="string">'0,0,255'</span> <span class="comment"># RGB values, use ',' to separate</span></span><br><span class="line"><span class="attr">  opacity:</span> <span class="number">0.5</span> <span class="comment"># the opacity of line: 0~1</span></span><br><span class="line"><span class="attr">  zIndex:</span> <span class="bullet">-1</span> <span class="comment"># z-index property of the background</span></span><br><span class="line"><span class="attr">  count:</span> <span class="number">99</span> <span class="comment"># the number of lines</span></span><br></pre></td></tr></table></figure></p>
+        <h1 id="开启动态背景"><a href="#开启动态背景" class="headerlink" title="开启动态背景"></a>开启动态背景</h1><p>修改<code>_config.yml</code>文件里的<code>canvas_nest</code>配置改为<code>true</code><br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">canvas_nest:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">onmobile:</span> <span class="literal">true</span> <span class="comment"># display on mobile or not</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">'0,0,255'</span> <span class="comment"># RGB values, use ',' to separate</span></span><br><span class="line">  <span class="attr">opacity:</span> <span class="number">0.5</span> <span class="comment"># the opacity of line: 0~1</span></span><br><span class="line">  <span class="attr">zIndex:</span> <span class="number">-1</span> <span class="comment"># z-index property of the background</span></span><br><span class="line">  <span class="attr">count:</span> <span class="number">99</span> <span class="comment"># the number of lines</span></span><br></pre></td></tr></table></figure></p>
 <h1 id="动态背景脚本加载路径-CDN"><a href="#动态背景脚本加载路径-CDN" class="headerlink" title="动态背景脚本加载路径 - CDN"></a>动态背景脚本加载路径 - CDN</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Internal version: 1.0.0</span></span><br><span class="line"><span class="comment"># See: https://github.com/theme-next/theme-next-canvas-nest</span></span><br><span class="line"><span class="comment"># Example:</span></span><br><span class="line"><span class="comment"># canvas_nest: //cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js</span></span><br><span class="line"><span class="comment"># canvas_nest_nomobile: //cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest-nomobile.min.js</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="string">//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest.min.js</span></span><br><span class="line"><span class="attr">canvas_nest_nomobile:</span> <span class="string">//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest-nomobile.min.js</span></span><br></pre></td></tr></table></figure>
 <p><code>canvas_nest</code>和<code>canvas_nest_nomobile</code>配置上路径，也可以使用本地文件</p>
 <h1 id="动态背景脚本使用本地文件"><a href="#动态背景脚本使用本地文件" class="headerlink" title="动态背景脚本使用本地文件"></a>动态背景脚本使用本地文件</h1><ol>
@@ -472,7 +472,7 @@
 <li>获取背景脚本模块文件， 下载<code>https://github.com/theme-next/theme-next-canvas-nest source/lib/canvas-nest</code>并解压到<code>source/lib</code><br>(可以使用git命令：<code>$ git clone https://github.com/theme-next/theme-next-canvas-nest source/lib/canvas-nest</code>)</li>
 <li>修改<code>_config.yml</code>配置里的配置项</li>
 </ol>
-<h1 id="自定义背景配置项"><a href="#自定义背景配置项" class="headerlink" title="自定义背景配置项"></a>自定义背景配置项</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Canvas-nest</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/theme-next/theme-next-canvas-nest</span></span><br><span class="line"><span class="attr">canvas_nest:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  onmobile:</span> <span class="literal">true</span> <span class="comment"># display on mobile or not</span></span><br><span class="line"><span class="attr">  color:</span> <span class="string">'0,0,255'</span> <span class="comment"># RGB values, use ',' to separate</span></span><br><span class="line"><span class="attr">  opacity:</span> <span class="number">0.5</span> <span class="comment"># the opacity of line: 0~1</span></span><br><span class="line"><span class="attr">  zIndex:</span> <span class="bullet">-1</span> <span class="comment"># z-index property of the background</span></span><br><span class="line"><span class="attr">  count:</span> <span class="number">99</span> <span class="comment"># the number of lines</span></span><br></pre></td></tr></table></figure>
+<h1 id="自定义背景配置项"><a href="#自定义背景配置项" class="headerlink" title="自定义背景配置项"></a>自定义背景配置项</h1><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Canvas-nest</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/theme-next/theme-next-canvas-nest</span></span><br><span class="line"><span class="attr">canvas_nest:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">onmobile:</span> <span class="literal">true</span> <span class="comment"># display on mobile or not</span></span><br><span class="line">  <span class="attr">color:</span> <span class="string">'0,0,255'</span> <span class="comment"># RGB values, use ',' to separate</span></span><br><span class="line">  <span class="attr">opacity:</span> <span class="number">0.5</span> <span class="comment"># the opacity of line: 0~1</span></span><br><span class="line">  <span class="attr">zIndex:</span> <span class="number">-1</span> <span class="comment"># z-index property of the background</span></span><br><span class="line">  <span class="attr">count:</span> <span class="number">99</span> <span class="comment"># the number of lines</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>color</code>：线条颜色, 默认: <code>&#39;0,0,255&#39;</code>；三个数字分别为(R,G,B)</li>
 <li><code>opacity</code>：线条透明度（0~1）, 默认: <code>0.5</code></li>
@@ -624,7 +624,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -717,7 +717,7 @@
                   
                     
                   
-                  <a href="https://github.com/YGT-cxy" title="GitHub &rarr; https://github.com/YGT-cxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/YGT-cxy" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;YGT-cxy" rel="noopener" target="_blank">&lt;i class&#x3D;&quot;fa fa-fw fa-github&quot;&gt;&lt;&#x2F;i&gt;GitHub</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -728,7 +728,7 @@
                   
                     
                   
-                  <a href="mailto:1159514579@qq.com" title="E-Mail &rarr; mailto:1159514579@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:1159514579@qq.com" title="E-Mail &amp;rarr; mailto:1159514579@qq.com" rel="noopener" target="_blank">&lt;i class&#x3D;&quot;fa fa-fw fa-envelope&quot;&gt;&lt;&#x2F;i&gt;E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -739,7 +739,7 @@
                   
                     
                   
-                  <a href="/15768862294" title="电话 &rarr; 15768862294"><i class="fa fa-fw fa-phone-square"></i>电话</a>
+                  <a href="/15768862294" title="电话 &amp;rarr; 15768862294">&lt;i class&#x3D;&quot;fa fa-fw fa-phone-square&quot;&gt;&lt;&#x2F;i&gt;电话</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -750,7 +750,7 @@
                   
                     
                   
-                  <a href="/q1159514579" title="wechat &rarr; q1159514579"><i class="fa fa-fw fa-phone-square"></i>wechat</a>
+                  <a href="/q1159514579" title="wechat &amp;rarr; q1159514579">&lt;i class&#x3D;&quot;fa fa-fw fa-phone-square&quot;&gt;&lt;&#x2F;i&gt;wechat</a>
                 </span>
               
             </div>
@@ -800,7 +800,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">  <a href="https://beian.miit.gov.cn" rel="noopener" target="_blank">粤ICP备18014379号-1 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">  <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备18014379号-1 </a>&copy; 2019 – <span itemprop="copyrightYear">2023</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -812,7 +812,7 @@
 </div>
 
 <!-- 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
 
 
 
@@ -820,7 +820,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
  -->
 
 

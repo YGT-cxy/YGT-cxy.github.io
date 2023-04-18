@@ -233,7 +233,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;首页</a>
 
   </li>
         
@@ -250,7 +250,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>文章</a>
+    <a href="/archives/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;文章</a>
 
   </li>
         
@@ -267,7 +267,7 @@
 
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;标签</a>
 
   </li>
         
@@ -284,7 +284,7 @@
 
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+    <a href="/categories/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-th&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;分类</a>
 
   </li>
         
@@ -301,7 +301,7 @@
 
     
 
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>作品</a>
+    <a href="/about/" rel="section">&lt;i class&#x3D;&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&#x2F;&gt;作品</a>
 
   </li>
 
@@ -466,7 +466,7 @@
       
         <p>图片上传是前端开发中常见的一个功能，有许许多多的插件，pc端有，移动端也有，尤其是canvas和H5API的出现和浏览器的发展，功能越来越多。但是在公众号上，就凉凉了，虽然可以用input的file属性去选择图片，但那只能选择一张图片，无法像朋友圈里那样选择多张图片。只能是调用微信jssdk提供的接口，接口虽然方便，不过接口选择的图片不能直接上传到开发者自己的服务器，非常麻烦。</p>
 <p>前段时间，我工作上遇到一个需求，需要解决公众号中裁剪图片在ios系统中显示黑屏的情况，裁剪的功能是借助插件实现的，一开始我以为是插件问题，换了一款插件，后来我发现，这是ios的问题，与插件无关。因为插件的裁剪基本上是利用canvas实现的，在ios中，图片像素过大的话，会处理出错，导致利用canvas导出的图片是黑屏，所以需要对图片进行压缩才能去裁剪图片。</p>
-<h6 id="图片压缩的js代码："><a href="#图片压缩的js代码：" class="headerlink" title="图片压缩的js代码："></a>图片压缩的js代码：</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 1. 压缩图片</span></span><br><span class="line"><span class="comment"> 2. @param  &#123;Base64 | url&#125;    imageData  图片的url或图片base64编码格式</span></span><br><span class="line"><span class="comment"> 3. @param  &#123;Object&#125;          options    配置项 w: 图片宽度 h: 图片高度 quality：压缩质量</span></span><br><span class="line"><span class="comment"> 4. @param  &#123;Function&#125;        callback   回调函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">imageCompression</span>(<span class="params">imageData, options, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">  img.src = imageData;</span><br><span class="line">  img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(that);</span><br><span class="line">    <span class="comment">// 默认按比例压缩</span></span><br><span class="line">    <span class="keyword">var</span> w = that.width,</span><br><span class="line">      h = that.height,</span><br><span class="line">      scale = w / h;</span><br><span class="line"></span><br><span class="line">    w = options.w || <span class="built_in">parseInt</span>(w / scale);</span><br><span class="line">    h = options.h || <span class="built_in">parseInt</span>(h / scale);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> quality = <span class="number">0.7</span>; <span class="comment">// 默认图片质量为0.7</span></span><br><span class="line">    <span class="comment">//生成canvas</span></span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">    <span class="comment">// 创建属性节点</span></span><br><span class="line">    <span class="keyword">var</span> anw = <span class="built_in">document</span>.createAttribute(<span class="string">"width"</span>);</span><br><span class="line">    anw.nodeValue = w;</span><br><span class="line">    <span class="keyword">var</span> anh = <span class="built_in">document</span>.createAttribute(<span class="string">"height"</span>);</span><br><span class="line">    anh.nodeValue = h;</span><br><span class="line">    canvas.setAttributeNode(anw);</span><br><span class="line">    canvas.setAttributeNode(anh);</span><br><span class="line">    ctx.drawImage(that, <span class="number">0</span>, <span class="number">0</span>, w, h);</span><br><span class="line">    <span class="comment">// 图像质量</span></span><br><span class="line">    <span class="keyword">if</span> (options.quality &amp;&amp; options.quality &lt;= <span class="number">1</span> &amp;&amp; options.quality &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      quality = options.quality;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// quality值越小，所绘制出的图像越模糊</span></span><br><span class="line">    <span class="keyword">var</span> base64 = canvas.toDataURL(<span class="string">'image/jpeg'</span>, quality);</span><br><span class="line">    <span class="comment">// 回调函数返回base64的值</span></span><br><span class="line">    callback(base64);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="图片压缩的js代码："><a href="#图片压缩的js代码：" class="headerlink" title="图片压缩的js代码："></a>图片压缩的js代码：</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 1. 压缩图片</span></span><br><span class="line"><span class="comment"> 2. <span class="doctag">@param  <span class="type">&#123;Base64 | url&#125;</span>    </span>imageData  图片的url或图片base64编码格式</span></span><br><span class="line"><span class="comment"> 3. <span class="doctag">@param  <span class="type">&#123;Object&#125;</span>          </span>options    配置项 w: 图片宽度 h: 图片高度 quality：压缩质量</span></span><br><span class="line"><span class="comment"> 4. <span class="doctag">@param  <span class="type">&#123;Function&#125;</span>        </span>callback   回调函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">imageCompression</span>(<span class="params">imageData, options, callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> img = <span class="keyword">new</span> Image();</span><br><span class="line">  img.src = imageData;</span><br><span class="line">  img.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(that);</span><br><span class="line">    <span class="comment">// 默认按比例压缩</span></span><br><span class="line">    <span class="keyword">var</span> w = that.width,</span><br><span class="line">      h = that.height,</span><br><span class="line">      scale = w / h;</span><br><span class="line"></span><br><span class="line">    w = options.w || <span class="built_in">parseInt</span>(w / scale);</span><br><span class="line">    h = options.h || <span class="built_in">parseInt</span>(h / scale);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> quality = <span class="number">0.7</span>; <span class="comment">// 默认图片质量为0.7</span></span><br><span class="line">    <span class="comment">//生成canvas</span></span><br><span class="line">    <span class="keyword">var</span> canvas = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line">    <span class="keyword">var</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">    <span class="comment">// 创建属性节点</span></span><br><span class="line">    <span class="keyword">var</span> anw = <span class="built_in">document</span>.createAttribute(<span class="string">"width"</span>);</span><br><span class="line">    anw.nodeValue = w;</span><br><span class="line">    <span class="keyword">var</span> anh = <span class="built_in">document</span>.createAttribute(<span class="string">"height"</span>);</span><br><span class="line">    anh.nodeValue = h;</span><br><span class="line">    canvas.setAttributeNode(anw);</span><br><span class="line">    canvas.setAttributeNode(anh);</span><br><span class="line">    ctx.drawImage(that, <span class="number">0</span>, <span class="number">0</span>, w, h);</span><br><span class="line">    <span class="comment">// 图像质量</span></span><br><span class="line">    <span class="keyword">if</span> (options.quality &amp;&amp; options.quality &lt;= <span class="number">1</span> &amp;&amp; options.quality &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      quality = options.quality;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// quality值越小，所绘制出的图像越模糊</span></span><br><span class="line">    <span class="keyword">var</span> base64 = canvas.toDataURL(<span class="string">'image/jpeg'</span>, quality);</span><br><span class="line">    <span class="comment">// 回调函数返回base64的值</span></span><br><span class="line">    callback(base64);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>图片压缩容易解决，问题是图片的来源难解决，通过input的file选择图片只能是一张张选择，还得判断文件是否为图片，通过这种方式获取的图片，可以直接利用图片压缩的方法压缩图片。利用微信提供的jssdk接口选择的图片，就不能直接使用了，chooseImage接口返回的是本地图片的ID列表，这个ID直接放到图片的src中，图片是能正常显示，可是这是因为微信浏览器做了特殊的处理，当我们通过img.onload去获取图片的信息，就会发现，无法获取到base64编码格式的图片。getLocalImgData接口支持直接返回本地base64格式的图片，不过需要根据是安卓或者是苹果手机做字符串上的处理。</p>
 <h6 id="处理方法："><a href="#处理方法：" class="headerlink" title="处理方法："></a>处理方法：</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.__wxjs_is_wkwebview) &#123; <span class="comment">// 如果是IOS，需要去掉前缀</span></span><br><span class="line">  localData = localData.replace(<span class="string">'jgp'</span>, <span class="string">'jpeg'</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  localData = <span class="string">'data:image/jpeg;base64,'</span> + localData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果对图片的清晰度要求不高，到这里基本上就能解决问题了，图片既能多选，又能解决裁剪黑屏的问题。</p>
@@ -625,7 +625,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -718,7 +718,7 @@
                   
                     
                   
-                  <a href="https://github.com/YGT-cxy" title="GitHub &rarr; https://github.com/YGT-cxy" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/YGT-cxy" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;YGT-cxy" rel="noopener" target="_blank">&lt;i class&#x3D;&quot;fa fa-fw fa-github&quot;&gt;&lt;&#x2F;i&gt;GitHub</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -729,7 +729,7 @@
                   
                     
                   
-                  <a href="mailto:1159514579@qq.com" title="E-Mail &rarr; mailto:1159514579@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <a href="mailto:1159514579@qq.com" title="E-Mail &amp;rarr; mailto:1159514579@qq.com" rel="noopener" target="_blank">&lt;i class&#x3D;&quot;fa fa-fw fa-envelope&quot;&gt;&lt;&#x2F;i&gt;E-Mail</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -740,7 +740,7 @@
                   
                     
                   
-                  <a href="/15768862294" title="电话 &rarr; 15768862294"><i class="fa fa-fw fa-phone-square"></i>电话</a>
+                  <a href="/15768862294" title="电话 &amp;rarr; 15768862294">&lt;i class&#x3D;&quot;fa fa-fw fa-phone-square&quot;&gt;&lt;&#x2F;i&gt;电话</a>
                 </span>
               
                 <span class="links-of-author-item">
@@ -751,7 +751,7 @@
                   
                     
                   
-                  <a href="/q1159514579" title="wechat &rarr; q1159514579"><i class="fa fa-fw fa-phone-square"></i>wechat</a>
+                  <a href="/q1159514579" title="wechat &amp;rarr; q1159514579">&lt;i class&#x3D;&quot;fa fa-fw fa-phone-square&quot;&gt;&lt;&#x2F;i&gt;wechat</a>
                 </span>
               
             </div>
@@ -801,7 +801,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">  <a href="https://beian.miit.gov.cn" rel="noopener" target="_blank">粤ICP备18014379号-1 </a>&copy; 2019 – <span itemprop="copyrightYear">2022</span>
+        <div class="copyright">  <a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">粤ICP备18014379号-1 </a>&copy; 2019 – <span itemprop="copyrightYear">2023</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -813,7 +813,7 @@
 </div>
 
 <!-- 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
 
 
 
@@ -821,7 +821,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
  -->
 
 
